@@ -156,7 +156,7 @@ push esp        ; "LoadLibrary"
 push ebx        ; Kernel32 base address
 call edx        ; GetProcAddress(LL)
 ```
-Lines 1-3) First, we set ecx to zero because we will use it later. Second, lines two and three, we save on the stack, for future, the ebx which is the kernel32 base address and the edx which is the pointer to the GetProcAddress function.
+(Lines 1-3) First, we set ecx to zero because we will use it later. Second, lines two and three, we save on the stack, for future, the ebx which is the kernel32 base address and the edx which is the pointer to the GetProcAddress function.
 
 (Lines 4-10) Now we have to make the following call: GetProcAddress(kernel32, “LoadLibraryA”). We have the kernel32 address, but how can we use a string? We will use again the stack. We will place the “LoadLibraryA\0” string on the stack. Yes, the string must be NULL terminated so this is why we set ecx to 0 and on line 4 we place it on the stack. We place the “LoadLibraryA” string on the stack 4 bytes at a time, in reverse order. We place first “aryA”, then “Libr” and then “Load” so the string on the stack will be “LoadLibraryA”. Done! Now, as we placed the data on the stack, the esp register, the stack pointer, will point to the beginning of our “LoadLibraryA” string. We now place the function parameters on the stack, from the last one to the first one, so first the esp in line 8, then the ebx, kernel32 base address on line 9 and we call edx which is the GetProcAddress pointer. And that’s all!
 
