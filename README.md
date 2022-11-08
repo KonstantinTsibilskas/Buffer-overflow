@@ -51,13 +51,21 @@ A program was created that removes specific fields in the registry.
 The following steps are required to create this program:
 
 1.Find where kernel32.dll is loaded into memory
+
 2.Find its export table
+
 3.Find GetProcAddress function exported by kernel32.dll
+
 4.Use GetProcAddress to find the address of the LoadLibrary function
-5.Use LoadLibrary to load user32.dll library
-6.Find the address of the SwapMouseButton function within user32.dll
-7.Call SwapMouseButton function
+
+5.Use LoadLibrary to load Advapi32.dll library
+
+6.Find the address of the SwapMouseButton function within Advapi32.dll
+
+7.Call RegDeleteKeyValueA function
+
 8.Find the address of the ExitProcess function
+
 9.Call ExitProcess function
 ### Find kernel32.dll base address
 ```
